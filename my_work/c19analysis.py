@@ -108,7 +108,10 @@ def confirmed_cases_vs_increase_state(data_st,state,fig3,ax3,clr='k',lns='-',mov
     incr = np.append(0,incr)
     county['increase']=incr
     #ax3.plot(county['cases'],county['increase'],clr+lns,label=state+'(state)')
-    ax3.plot(cpn.movingaverage(county['cases'],moving_window),cpn.movingaverage(county['increase'],moving_window),clr+lns,label=state+'(state)')
+    if state == 'Washington':
+        ax3.plot(cpn.movingaverage(county['cases'],moving_window),cpn.movingaverage(county['increase'],moving_window),clr+lns,label=state+'(state)')
+    else:
+        ax3.plot(cpn.movingaverage(county['cases'],moving_window),cpn.movingaverage(county['increase'],moving_window),clr+lns,label=state)
     #day7x=county['cases'].array[-8]
     #day7y=county['increase'].array[-8]
     #ax3.annotate('-7 days',xy=(day7x,day7y), xytext=(day7x,2),size=12,color=clr,arrowprops=dict(arrowstyle='->',color=clr))
