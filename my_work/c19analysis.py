@@ -83,11 +83,11 @@ def confirmed_cases_vs_increase(data,cnty,fips,fig3,ax3,clr='k',lns='-',moving_w
         county =data.groupby('county').get_group('New York City')
     else:
         county = data.groupby('fips').get_group(fips)
-    county['date']=pd.to_datetime(county['date'])
+    county.date=pd.to_datetime(county.date)
     x = county['cases'].to_numpy()   
     incr = x[1:]-x[0:-1]
     incr = np.append(0,incr)
-    county['increase']=incr
+    county.insert(2,'increase',incr,True)
     #ax3.plot(county['cases'],county['increase'],clr+lns,label=cnty)
     ax3.plot(cpn.movingaverage(county['cases'],moving_window),cpn.movingaverage(county['increase'],moving_window),clr+lns,label=cnty)
 
@@ -102,11 +102,12 @@ def confirmed_cases_vs_increase_state(data_st,state,fig3,ax3,clr='k',lns='-',mov
     moving_window=1 # change to consider moving average
     '''
     county = data_st.groupby('state').get_group(state)
-    county['date']=pd.to_datetime(county['date'])
+    county.date=pd.to_datetime(county.date)
     x = county['cases'].to_numpy()   
     incr = x[1:]-x[0:-1]
     incr = np.append(0,incr)
-    county['increase']=incr
+    #county['increase']=incr
+    county.insert(2, "increase", incr, True) 
     #ax3.plot(county['cases'],county['increase'],clr+lns,label=state+'(state)')
     if state == 'Washington':
         ax3.plot(cpn.movingaverage(county['cases'],moving_window),cpn.movingaverage(county['increase'],moving_window),clr+lns,label=state+'(state)')
